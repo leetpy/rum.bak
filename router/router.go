@@ -8,13 +8,20 @@ import (
 	"path"
 
 	"github.com/gin-gonic/gin"
+	"github.com/leetpy/rum/conf"
 	"github.com/leetpy/rum/util"
 )
 
 func InitRouter() {
 	router := gin.Default()
 	router.Static("/static", "static")
-	router.Static("/ironic", "sphinx/ironic")
+	fmt.Println("--------------")
+	for _, v := range conf.Conf.Sphinx {
+		// fmt.Println(v)
+		router.Static(v, path.Join("sphinx", v))
+	}
+	fmt.Println("--------------")
+
 	router.StaticFS("/book", http.Dir("books"))
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/books/upload", func(c *gin.Context) {
@@ -53,7 +60,8 @@ func upload(c *gin.Context) {
 }
 
 func showBooks(c *gin.Context) {
-	books, err := util.ListDir("books", "pdf")
+	suffix := conf.Conf.EnabledSuffix
+	books, err := util.ListDir("books", suffix)
 	if err != nil {
 		c.String(http.StatusInternalServerError, fmt.Sprintf(err.Error()))
 		return
