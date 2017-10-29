@@ -16,6 +16,7 @@ var (
 type config struct {
 	EnabledSuffix []string
 	Sphinx        []string
+	Logfile       string
 }
 
 func InitConfig(configFile string) error {
@@ -35,8 +36,10 @@ func InitConfig(configFile string) error {
 
 		enabledSuffix := cfg.Section("default").Key("enabled_suffix").MustString("")
 		sphinx := cfg.Section("default").Key("sphinx").MustString("")
+		logfile := cfg.Section("default").Key("logfile").MustString("/var/log/rum.log")
 		Conf.EnabledSuffix = strings.Split(enabledSuffix, ",")
 		Conf.Sphinx = strings.Split(sphinx, ",")
+		Conf.Logfile = logfile
 	}
 	return nil
 }

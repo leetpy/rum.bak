@@ -30,6 +30,13 @@ func InitRouter() {
 		c.HTML(http.StatusOK, "login.html", gin.H{})
 	})
 
+	// Authorization group
+	//authorized := router.Group("/env")
+	//authorized.Use()
+	//{
+	//	authorized.POST("/login", )
+	//}
+
 	// index
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{})
@@ -38,6 +45,18 @@ func InitRouter() {
 	router.POST("/books/upload", upload)
 	router.GET("/books", showBooks)
 	router.Run(":8080")
+}
+
+//func login(c *gin.Context) {
+//	var json Login
+//	if err := c.ShouldBindJSON(&json); err == nil {
+//
+//	}
+//}
+
+type Login struct {
+	Email    string `json:"user" bniding:"required"`
+	Password string `json "password" binding:"required"`
 }
 
 func upload(c *gin.Context) {
