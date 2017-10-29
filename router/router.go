@@ -15,17 +15,24 @@ import (
 func InitRouter() {
 	router := gin.Default()
 	router.Static("/static", "static")
-	fmt.Println("--------------")
 	for _, v := range conf.Conf.Sphinx {
-		// fmt.Println(v)
 		router.Static(v, path.Join("sphinx", v))
 	}
-	fmt.Println("--------------")
 
 	router.StaticFS("/book", http.Dir("books"))
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/books/upload", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "upload.html", gin.H{})
+	})
+
+	// login
+	router.GET("/login", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "login.html", gin.H{})
+	})
+
+	// index
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 
 	router.POST("/books/upload", upload)

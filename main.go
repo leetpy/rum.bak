@@ -8,6 +8,7 @@ import (
 func main() {
 	// init config
 	configFilePath := ""
+
 	conf.InitConfig(configFilePath)
 
 	// init router
